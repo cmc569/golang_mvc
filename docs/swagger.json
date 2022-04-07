@@ -1,0 +1,329 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "contact": {}
+    },
+    "paths": {
+        "/api/v1/auth/sms/send-verify-sms": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "top description",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "簡訊相關"
+                ],
+                "summary": "發送驗證碼",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "default( Base {Add access token here} )",
+                        "name": "authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "Required =\u003e All\u003cbr\u003ecountryCode:'+886'\u003cbr\u003eVerifyType:1:註冊2:忘記密碼",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/docs.DocSmsSendVerifySms"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{data\":{},\"msg\":\"success msg\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "{data\":{},\"msg\":\"error msg\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/auth/transaction/mpg-response": {
+            "post": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "支付相關"
+                ],
+                "summary": "藍星回應",
+                "parameters": [
+                    {
+                        "description": "Required =\u003e All",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/docs.DocMpgResponse"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"data\":{},\"msg\":\"success\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "{data\":{},\"msg\":\"error msg\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/auth/transaction/save-point": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "支付相關"
+                ],
+                "summary": "儲值(串接藍星)",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "default( Base {Add access token here} )",
+                        "name": "authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "Required =\u003e All",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/docs.DocTransaction"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"data\":{\"aesCode\":\"\", \"sha256Code\": \"\"},\"msg\":\"success\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "{data\":{},\"msg\":\"error msg\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/auth/users/info": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "會員相關"
+                ],
+                "summary": "取得使用者資訊",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "default( Base {Add access token here} )",
+                        "name": "authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "Required =\u003e All",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/docs.DocUsersInfo"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"data\":{ \"Id\": \"Id\", \"LineToken\": \"Line token\", \"Picture\": \"大頭貼\", \"Name\": \"名字\", \"Phone\": \"電話\", \"CountryCode\": \"區碼\", \"CreatedAt\": \"建立時間\", \"UpdatedAt\": \"更新時間\" },\"msg\":\"ok\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "{data\":{},\"msg\":\"error msg\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/auth/users/sign-up": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "top description",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "會員相關"
+                ],
+                "summary": "會員綁定",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "default( Base {Add access token here} )",
+                        "name": "authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "Required =\u003e All",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/docs.DocUsersSignUp"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{data\":{},\"msg\":\"success msg\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "{data\":{},\"msg\":\"error msg\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/webhook/callback": {
+            "post": {
+                "tags": [
+                    "Line相關"
+                ],
+                "summary": "LineWebHook事件",
+                "responses": {
+                    "200": {
+                        "description": ""
+                    },
+                    "400": {
+                        "description": ""
+                    },
+                    "500": {
+                        "description": ""
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "docs.DocMpgResponse": {
+            "type": "object",
+            "properties": {
+                "lineToken": {
+                    "type": "string"
+                }
+            }
+        },
+        "docs.DocSmsSendVerifySms": {
+            "type": "object",
+            "properties": {
+                "countryCode": {
+                    "type": "string"
+                },
+                "phone": {
+                    "type": "string"
+                },
+                "verifyType": {
+                    "type": "integer"
+                }
+            }
+        },
+        "docs.DocTransaction": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "type": "integer"
+                },
+                "lineToken": {
+                    "type": "string"
+                },
+                "merchantID": {
+                    "type": "string"
+                }
+            }
+        },
+        "docs.DocUsersInfo": {
+            "type": "object",
+            "properties": {
+                "lineToken": {
+                    "type": "string"
+                }
+            }
+        },
+        "docs.DocUsersSignUp": {
+            "type": "object",
+            "properties": {
+                "countryCode": {
+                    "type": "string"
+                },
+                "lineToken": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "phone": {
+                    "type": "string"
+                },
+                "verifyCode": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

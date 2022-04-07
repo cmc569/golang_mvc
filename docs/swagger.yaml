@@ -1,0 +1,209 @@
+definitions:
+  docs.DocMpgResponse:
+    properties:
+      lineToken:
+        type: string
+    type: object
+  docs.DocSmsSendVerifySms:
+    properties:
+      countryCode:
+        type: string
+      phone:
+        type: string
+      verifyType:
+        type: integer
+    type: object
+  docs.DocTransaction:
+    properties:
+      amount:
+        type: integer
+      lineToken:
+        type: string
+      merchantID:
+        type: string
+    type: object
+  docs.DocUsersInfo:
+    properties:
+      lineToken:
+        type: string
+    type: object
+  docs.DocUsersSignUp:
+    properties:
+      countryCode:
+        type: string
+      lineToken:
+        type: string
+      name:
+        type: string
+      phone:
+        type: string
+      verifyCode:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /api/v1/auth/sms/send-verify-sms:
+    post:
+      consumes:
+      - application/json
+      description: top description
+      parameters:
+      - description: default( Base {Add access token here} )
+        in: header
+        name: authorization
+        required: true
+        type: string
+      - description: Required => All<br>countryCode:'+886'<br>VerifyType:1:註冊2:忘記密碼
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/docs.DocSmsSendVerifySms'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{data":{},"msg":"success msg"}'
+          schema:
+            type: string
+        "400":
+          description: '{data":{},"msg":"error msg"}'
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: 發送驗證碼
+      tags:
+      - 簡訊相關
+  /api/v1/auth/transaction/mpg-response:
+    post:
+      parameters:
+      - description: Required => All
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/docs.DocMpgResponse'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"data":{},"msg":"success"}'
+          schema:
+            type: string
+        "400":
+          description: '{data":{},"msg":"error msg"}'
+          schema:
+            type: string
+      summary: 藍星回應
+      tags:
+      - 支付相關
+  /api/v1/auth/transaction/save-point:
+    post:
+      parameters:
+      - description: default( Base {Add access token here} )
+        in: header
+        name: authorization
+        required: true
+        type: string
+      - description: Required => All
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/docs.DocTransaction'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"data":{"aesCode":"", "sha256Code": ""},"msg":"success"}'
+          schema:
+            type: string
+        "400":
+          description: '{data":{},"msg":"error msg"}'
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: 儲值(串接藍星)
+      tags:
+      - 支付相關
+  /api/v1/auth/users/info:
+    post:
+      parameters:
+      - description: default( Base {Add access token here} )
+        in: header
+        name: authorization
+        required: true
+        type: string
+      - description: Required => All
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/docs.DocUsersInfo'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"data":{ "Id": "Id", "LineToken": "Line token", "Picture":
+            "大頭貼", "Name": "名字", "Phone": "電話", "CountryCode": "區碼", "CreatedAt":
+            "建立時間", "UpdatedAt": "更新時間" },"msg":"ok"}'
+          schema:
+            type: string
+        "400":
+          description: '{data":{},"msg":"error msg"}'
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: 取得使用者資訊
+      tags:
+      - 會員相關
+  /api/v1/auth/users/sign-up:
+    post:
+      consumes:
+      - application/json
+      description: top description
+      parameters:
+      - description: default( Base {Add access token here} )
+        in: header
+        name: authorization
+        required: true
+        type: string
+      - description: Required => All
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/docs.DocUsersSignUp'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{data":{},"msg":"success msg"}'
+          schema:
+            type: string
+        "400":
+          description: '{data":{},"msg":"error msg"}'
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: 會員綁定
+      tags:
+      - 會員相關
+  /api/v1/webhook/callback:
+    post:
+      responses:
+        "200":
+          description: ""
+        "400":
+          description: ""
+        "500":
+          description: ""
+      summary: LineWebHook事件
+      tags:
+      - Line相關
+swagger: "2.0"

@@ -54,3 +54,10 @@ env GOOS=linux GOARCH=amd64 go build -o linux_linux
 #測試
 env GOOS=linux GOARCH=amd64 go build -tags test -o linux_linux
 ```
+
+## 提醒
+
+```
+要記得啟用go module
+go env | grep GO111MODULE
+```

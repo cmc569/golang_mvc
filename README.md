@@ -29,3 +29,28 @@ production_config.go => 打包切換gin mode機制
 test_config.go  => 打包切換gin mode機制
 
 router.go => 設置路由
+
+<hr>
+
+## 本地開發啟動程式
+```
+go run api
+```
+## 打包相關設定
+### 根據不同的作業系統需選擇不同的環境
+
+(Linux, windows , darwin)
+
+GOOS=linux
+
+(amd64, 386)
+
+GOARCH=amd64
+```
+#正式
+env GOOS=linux GOARCH=amd64 go build -o linux_linux
+```
+```
+#測試
+env GOOS=linux GOARCH=amd64 go build -tags test -o linux_linux
+```

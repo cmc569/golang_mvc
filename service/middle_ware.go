@@ -2,7 +2,8 @@ package service
 
 import (
 	_ "api/util/jwt"
-	util "api/util/line_webhook"
+	jwt_secret "api/util/jwt"
+	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
@@ -11,24 +12,35 @@ func AuthMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var isPass = true
 		var message string
+
 		token := c.Request.Header.Get("authorization")
 		if token == "" {
 			message = "token not found"
 			isPass = false
 		} else {
-			rsp := util.VerifyAccessToken(token)
-			if rsp.UserId == ""{
-				message = rsp.Message
-				isPass = false
+			usersId, err := jwt_secret.ParseToken(token)
+			c.Set("usersId", usersId)
+			if err != nil {
+				switch err.(*jwt.ValidationError).Errors {
+				case jwt.ValidationErrorExpired:
+					message = "token expired"
+					isPass = false
+				default:
+					message = "token fail"
+					isPass = false
+				}
 			}
 		}
+
 		if !isPass {
 			c.JSON(http.StatusUnauthorized, gin.H{
 				"msg": message,
 			})
+
 			c.Abort()
 			return
 		}
+
 		c.Next()
 	}
 }

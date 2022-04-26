@@ -12,7 +12,6 @@ func Router() *gin.Engine {
 	router := gin.Default()
 	router.Use(gin.Logger())
 	router.Use(gin.Recovery())
-
 	router.Use(cors.New(cors.Config{
 		AllowAllOrigins: true,
 		AllowMethods:    []string{"GET", "POST", "PUT", "DELETE"},
@@ -30,9 +29,7 @@ func Router() *gin.Engine {
 	apiV1AuthGroup := router.Group("/api/v1/auth")
 	apiV1AuthGroup.Use(service.AuthMiddleware())
 	{
-
 	}
-
 	return router
 }
 

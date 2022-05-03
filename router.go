@@ -1,9 +1,10 @@
 package main
 
 import (
-	"api/api/v1"
+	v1 "api/api/v1"
 	_ "api/docs"
 	"api/service"
+
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
@@ -17,6 +18,9 @@ func Router() *gin.Engine {
 		AllowMethods:    []string{"GET", "POST", "PUT", "DELETE"},
 		AllowHeaders:    []string{"Content-Type", "Access-Control-Allow-Origin", "Authorization"},
 	}))
+
+	webGroup := router.Group("/web")
+	Web(webGroup.Group("/"))
 	//======================================================================
 	//								  not auth
 	//======================================================================
@@ -35,4 +39,10 @@ func Router() *gin.Engine {
 
 func Public(router *gin.RouterGroup) {
 	router.POST("/test", v1.Ping)
+}
+
+func Web(router *gin.RouterGroup) {
+	router.GET("/hello", func (c *gin.Context) {
+		c.JSON(200, "Hello - v1")
+	})
 }
